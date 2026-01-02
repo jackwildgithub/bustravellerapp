@@ -1,0 +1,50 @@
+[
+  {
+    "id": "geelong-titlecard-001",
+    "type": "trivia",
+    "layout": "titlecard",
+    "kicker": "Gull Airport Service",
+    "title": "Geelong Traveller's\nPocket Companion",
+    "body": "Local trivia, hints, puzzles and stories for your journey.",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Geelong%2C_Victoria_Australia.jpg",
+    "tags": ["geelong", "titlecard", "welcome", "travel"]
+  },
+  {
+    "id": "geelong-weather-002",
+    "type": "trivia",
+    "kicker": "Weather",
+    "title": "It can be sunny and cold at the same time.",
+    "body": "The wind does not care what the sun is doing.",
+    "image": "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=1200&q=80",
+    "tags": ["geelong", "weather", "local", "wind"]
+  },
+  {
+    "id": "geelong-truefalse-003",
+    "type": "tf",
+    "kicker": "True or False",
+    "title": "Geelong was briefly more important than Melbourne.",
+    "body": "Tap to reveal.",
+    "answer": "True-ish.",
+    "explain": "Early on, Geelong's port and wool trade mattered a lot—then gold & Melbourne's growth changed the balance.",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
+    "tags": ["geelong", "history", "melbourne", "truefalse", "port"]
+  },
+  {
+    "id": "geelong-language-004",
+    "type": "trivia",
+    "kicker": "Language",
+    "title": "People say \"up the road\" and mean Melbourne.",
+    "body": "Direction is emotional, not geographic.",
+    "image": "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=1200&q=80",
+    "tags": ["geelong", "language", "local", "melbourne", "culture"]
+  },
+  {
+    "id": "geelong-vibe-005",
+    "type": "trivia",
+    "kicker": "Vibe Check",
+    "title": "Geelong doesn't rush to impress you.",
+    "body": "It's not being rude.\nIt's being Geelong.",
+    "image": "https://images.unsplash.com/photo-1551244072-5d12893278ab?w=1200&q=80",
+    "tags": ["geelong", "culture", "local", "vibe"]
+  }
+]

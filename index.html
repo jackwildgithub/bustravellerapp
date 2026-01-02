@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Geelong Pocket Trivia</title>
+
+  <!-- Swiper.js CSS via CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #000;
+    }
+
+    .swiper { width: 100%; height: 100%; }
+
+    .swiper-slide {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .swiper-slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 1;
+    }
+
+    .slide-content {
+      position: relative;
+      z-index: 2;
+      color: #fff;
+      text-align: center;
+      padding: 22px;
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .slide-kicker {
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      margin-bottom: 10px;
+    }
+
+    .slide-title {
+      font-size: 2.2rem;
+      font-weight: 650;
+      margin-bottom: 10px;
+      line-height: 1.15;
+      white-space: pre-line;
+    }
+
+    .slide-description {
+      font-size: 1.05rem;
+      line-height: 1.55;
+      opacity: 0.92;
+      white-space: pre-line;
+    }
+
+    .hint {
+      margin-top: 18px;
+      font-size: 0.95rem;
+      opacity: 0.75;
+    }
+
+    /* Answer reveal pill */
+    .reveal {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(6px);
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .reveal strong { opacity: 1; }
+
+    /* Pagination dots */
+    .swiper-pagination-bullet {
+      background: white;
+      opacity: 0.45;
+      width: 8px;
+      height: 8px;
+    }
+    .swiper-pagination-bullet-active { opacity: 1; }
+    
+    /* ============================= */
+    /* SLIDE LAYOUT MODIFIERS        */
+    /* ============================= */
+
+    .swiper-slide.layout-titlecard .slide-title {
+    font-size: 2.2rem;
+    font-weight: 720;
+    line-height: 1.08;
+}
+
+    .swiper-slide.layout-titlecard .slide-description {
+    font-size: 1.12rem;
+    opacity: 0.95;
+}
+
+    .swiper-slide.layout-titlecard .slide-kicker {
+    opacity: 0.9;
+}
+
+    /* ============================= */
+/* PHOTO MODE (IMAGE-ONLY VIEW)  */
+/* ============================= */
+
+.swiper-slide.is-photo::before {
+  background: rgba(0,0,0,0);
+}
+
+.swiper-slide.is-photo .slide-content {
+  opacity: 0;
+  pointer-events: none;
+}
+
+  .swiper-slide::before,
+.slide-content {
+  transition: opacity 180ms ease, background 180ms ease;
+}
+      
+    
+  </style>
+</head>
+
+<body>
+  <!-- SINGLE DECK VIEW -->
+  <div class="swiper" id="deck-swiper">
+    <div class="swiper-wrapper">
+      <!-- Slides injected here -->
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <!-- Swiper.js via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script>
+    /**
+     * Encarta-style DECK:
+     * - type: "trivia" | "tf" (true/false) | "mcq" (multiple choice)
+     * - title: big headline
+     * - body: 1–3 lines max
+     * - image: optional background
+     * - answer/explain: optional for games
+     */
+    
+    // Configuration for deck loading (can be changed to load different decks)
+    const DECK_URL = "./deck.json";
+    
+    // Global DECK variable (populated by loadDeck)
+    let DECK = [];
+
+    function slideHTML(item, index) {
+      const layoutClass = item.layout ? `layout-${item.layout}` : "";
+      const bg = item.image ? `style="background-image:url('${item.image}');"` : "";
+      const kicker = item.kicker ? `<div class="slide-kicker">${escapeHtml(item.kicker)}</div>` : "";
+
+      // For game cards, we’ll stash answer + explain in data-attrs
+      const dataAttrs = [
+        `data-index="${index}"`,
+        `data-type="${item.type}"`
+      ];
+
+      if (item.answer) dataAttrs.push(`data-answer="${escapeAttr(item.answer)}"`);
+      if (item.explain) dataAttrs.push(`data-explain="${escapeAttr(item.explain)}"`);
+
+      return `
+        <div class="swiper-slide ${layoutClass}" ${bg} ${dataAttrs.join(" ")}>
+          <div class="slide-content">
+            ${kicker}
+            <h1 class="slide-title">${escapeHtml(item.title || "")}</h1>
+            <p class="slide-description">${escapeHtml(item.body || "")}</p>
+            ${item.type !== "trivia" ? `<div class="hint">Tap anywhere on this card to reveal the answer.</div>` : ""}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderDeck() {
+      const wrapper = document.querySelector('#deck-swiper .swiper-wrapper');
+      wrapper.innerHTML = DECK.map(slideHTML).join('');
+    }
+
+    // Tiny helpers to keep your HTML safe
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+    function escapeAttr(str) {
+      // attrs can’t contain raw quotes/newlines safely
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;")
+        .replaceAll("\n", " ");
+    }
+
+    // Async loader for deck data
+    async function loadDeck() {
+      try {
+        const response = await fetch(DECK_URL, { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        DECK = await response.json();
+        return true;
+      } catch (error) {
+        console.error("Failed to load deck.json:", error);
+        return false;
+      }
+    }
+
+    // Show error message in the UI
+    function showError(message) {
+      const wrapper = document.querySelector('#deck-swiper .swiper-wrapper');
+      wrapper.innerHTML = `
+        <div style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+          width: 100vw;
+          color: white;
+          font-size: 1.2rem;
+          text-align: center;
+          padding: 20px;
+        ">${message}</div>
+      `;
+    }
+
+    // Initialize Swiper (will be assigned after deck loads)
+    let deckSwiper;
+
+    // Init: Load deck then initialize everything
+    (async function init() {
+      const loaded = await loadDeck();
+      
+      if (!loaded) {
+        showError("Failed to load deck.json");
+        return;
+      }
+
+      renderDeck();
+
+      deckSwiper = new Swiper('#deck-swiper', {
+      effect: 'slide',
+      speed: 400,
+
+      slidesPerView: 1,
+      spaceBetween: 0,
+
+      longSwipesRatio: 0.3,
+      threshold: 10,
+      resistance: true,
+      resistanceRatio: 0,
+      freeMode: false,
+
+      // This is the “endless deck”
+      loop: true,
+
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true
+      },
+
+      touchStartPreventDefault: false,
+      slideToClickedSlide: false
+    });
+
+      // Optional: when the slide changes, reset reveal state for the *current* slide element
+      deckSwiper.on('slideChangeTransitionStart', () => {
+        // Because loop clones slides, we clear reveals on all visible slides each move
+        document.querySelectorAll('.swiper-slide .reveal').forEach(el => el.remove());
+        document.querySelectorAll('.swiper-slide[data-revealed="1"]').forEach(sl => sl.dataset.revealed = "0");
+      });
+
+      // Update Swiper after slides are injected
+      deckSwiper.update();
+    })();
+
+    // Tap-to-reveal for game cards (TF/MCQ/etc.)
+    document.getElementById('deck-swiper').addEventListener('click', (e) => {
+      const slide = e.target.closest('.swiper-slide');
+      if (!slide) return;
+
+      const type = slide.dataset.type;
+
+      // For trivia/title cards: toggle photo-only mode
+      if (type === "trivia") {
+        slide.classList.toggle("is-photo");
+        return;
+      }
+
+      // Already revealed? Don't spam
+      if (slide.dataset.revealed === "1") return;
+
+      const answer = slide.dataset.answer || "Answer";
+      const explain = slide.dataset.explain || "";
+
+      const content = slide.querySelector('.slide-content');
+      const pill = document.createElement('div');
+      pill.className = 'reveal';
+      pill.innerHTML = `<strong>${escapeHtml(answer)}</strong>${explain ? `<div style="margin-top:8px; opacity:0.9;">${escapeHtml(explain)}</div>` : ""}`;
+
+      content.appendChild(pill);
+      slide.dataset.revealed = "1";
+    });
+  </script>
+</body>
+</html>
