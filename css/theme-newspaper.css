@@ -1,0 +1,465 @@
+/**
+ * THEME-NEWSPAPER.CSS
+ * All visual styling: newspaper / notepad / typewriter aesthetic
+ * Calm, soft palette with generous spacing
+ */
+
+/* ============================================ */
+/* FONT IMPORTS                                 */
+/* ============================================ */
+
+/* Using system serif fonts for now - can be replaced with custom font */
+@font-face {
+  font-family: 'NewspaperSerif';
+  src: local('Georgia'), local('Times New Roman'), local('serif');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* ============================================ */
+/* COLOR PALETTE (Newspaper Theme)              */
+/* ============================================ */
+
+:root {
+  /* Paper colors - soft, warm off-white */
+  --paper-bg: #f9f7f4;
+  --paper-overlay: rgba(249, 247, 244, 0.95);
+  
+  /* Ink colors - dark but not pure black */
+  --ink-primary: #2a2520;
+  --ink-secondary: #4a433d;
+  --ink-muted: #6a625a;
+  
+  /* Accent - very subtle */
+  --accent-subtle: #8b7d6b;
+  
+  /* Shadows and borders */
+  --shadow-light: rgba(42, 37, 32, 0.08);
+  --shadow-medium: rgba(42, 37, 32, 0.15);
+  --border-color: rgba(42, 37, 32, 0.12);
+}
+
+/* ============================================ */
+/* BODY & TYPOGRAPHY                            */
+/* ============================================ */
+
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  background: var(--paper-bg);
+  color: var(--ink-primary);
+  line-height: 1.6;
+}
+
+/* Subtle paper texture using CSS */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(42, 37, 32, 0.015) 2px,
+      rgba(42, 37, 32, 0.015) 4px
+    );
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* ============================================ */
+/* DECK STYLING                                 */
+/* ============================================ */
+
+.swiper-slide {
+  background-color: var(--paper-bg);
+}
+
+/* Image overlay for text readability */
+.swiper-slide::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(42, 37, 32, 0.7) 0%,
+    rgba(42, 37, 32, 0.5) 50%,
+    rgba(42, 37, 32, 0.7) 100%
+  );
+}
+
+/* When no image, lighter overlay */
+.swiper-slide:not([style*="background-image"])::before {
+  background: none;
+}
+
+.swiper-slide:not([style*="background-image"]) {
+  background: var(--paper-bg);
+}
+
+.swiper-slide:not([style*="background-image"]) .slide-content {
+  color: var(--ink-primary);
+}
+
+/* Slide text styling */
+.slide-content {
+  color: var(--paper-bg);
+}
+
+.slide-kicker {
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-bottom: 16px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.slide-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1.15;
+  white-space: pre-line;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.slide-description {
+  font-size: 1.15rem;
+  line-height: 1.65;
+  opacity: 0.9;
+  white-space: pre-line;
+  font-weight: 400;
+}
+
+.hint {
+  margin-top: 24px;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+/* Answer reveal pill */
+.reveal {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 14px 20px;
+  border-radius: 6px;
+  background: var(--paper-overlay);
+  box-shadow: 0 2px 8px var(--shadow-medium);
+  font-size: 1rem;
+  opacity: 1;
+  color: var(--ink-primary);
+  border: 1px solid var(--border-color);
+}
+
+.reveal strong {
+  color: var(--ink-primary);
+  font-weight: 700;
+}
+
+/* Pagination dots */
+.swiper-pagination-bullet {
+  background: var(--ink-primary);
+  opacity: 0.3;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 0.8;
+}
+
+/* ============================================ */
+/* GAME LAYER STYLING                           */
+/* ============================================ */
+
+#game-layer {
+  background: var(--paper-bg);
+  color: var(--ink-primary);
+}
+
+/* Game navigation bar */
+.game-nav {
+  background: var(--paper-bg);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px var(--shadow-light);
+}
+
+/* ============================================ */
+/* BUTTONS                                      */
+/* ============================================ */
+
+.btn {
+  background: var(--ink-primary);
+  color: var(--paper-bg);
+  border: 2px solid var(--ink-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  box-shadow: 0 2px 6px var(--shadow-light);
+}
+
+.btn:hover {
+  background: var(--ink-secondary);
+  border-color: var(--ink-secondary);
+  opacity: 1;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--ink-primary);
+  border: 2px solid var(--ink-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--ink-primary);
+  color: var(--paper-bg);
+}
+
+.btn-back {
+  background: transparent;
+  color: var(--ink-secondary);
+  border: 1px solid var(--border-color);
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.btn-back:hover {
+  background: var(--ink-primary);
+  color: var(--paper-bg);
+  border-color: var(--ink-primary);
+}
+
+/* ============================================ */
+/* GAME INTRO SCREEN                            */
+/* ============================================ */
+
+.game-intro {
+  background: var(--paper-bg);
+}
+
+.game-intro-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  color: var(--ink-primary);
+  margin-bottom: 24px;
+  border-bottom: 3px solid var(--ink-primary);
+  padding-bottom: 16px;
+}
+
+.game-intro-instructions {
+  color: var(--ink-secondary);
+  line-height: 1.75;
+  margin-bottom: 40px;
+}
+
+.game-intro-instructions strong {
+  color: var(--ink-primary);
+  font-weight: 700;
+}
+
+/* ============================================ */
+/* GAME CONTAINERS                              */
+/* ============================================ */
+
+.game-container {
+  background: var(--paper-bg);
+}
+
+.game-container h1,
+.game-container h2,
+.game-container h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--ink-primary);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.game-container p {
+  color: var(--ink-secondary);
+  line-height: 1.7;
+}
+
+/* ============================================ */
+/* GAME PLACEHOLDER STYLING                     */
+/* ============================================ */
+
+.game-placeholder {
+  background: var(--paper-bg);
+}
+
+.game-placeholder-icon {
+  color: var(--ink-muted);
+  opacity: 0.2;
+}
+
+.game-placeholder-text {
+  color: var(--ink-primary);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 600;
+}
+
+.game-placeholder-subtext {
+  color: var(--ink-secondary);
+  opacity: 0.7;
+  font-style: italic;
+}
+
+/* ============================================ */
+/* TRIVIA GAME SPECIFIC                         */
+/* ============================================ */
+
+.trivia-question {
+  background: var(--paper-bg);
+  padding: 32px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px var(--shadow-light);
+}
+
+.trivia-question-text {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+  line-height: 1.5;
+  margin-bottom: 24px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.trivia-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trivia-option {
+  padding: 16px 20px;
+  background: var(--paper-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 120ms ease;
+  font-size: 1.05rem;
+  color: var(--ink-primary);
+  text-align: left;
+}
+
+.trivia-option:hover {
+  border-color: var(--ink-secondary);
+  background: rgba(42, 37, 32, 0.03);
+}
+
+.trivia-option.correct {
+  background: rgba(70, 120, 70, 0.1);
+  border-color: rgb(70, 120, 70);
+  color: rgb(50, 90, 50);
+}
+
+.trivia-option.incorrect {
+  background: rgba(140, 60, 60, 0.1);
+  border-color: rgb(140, 60, 60);
+  color: rgb(100, 40, 40);
+  opacity: 0.6;
+}
+
+.trivia-feedback {
+  padding: 20px;
+  border-radius: 6px;
+  margin-top: 20px;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.trivia-feedback.correct {
+  background: rgba(70, 120, 70, 0.08);
+  border: 1px solid rgba(70, 120, 70, 0.3);
+  color: rgb(50, 90, 50);
+}
+
+.trivia-feedback.incorrect {
+  background: rgba(140, 60, 60, 0.08);
+  border: 1px solid rgba(140, 60, 60, 0.3);
+  color: rgb(100, 40, 40);
+}
+
+.trivia-score {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--ink-secondary);
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* ============================================ */
+/* GRID PUZZLES (crossword, sudoku, etc.)       */
+/* ============================================ */
+
+.puzzle-grid {
+  display: inline-block;
+  border: 2px solid var(--ink-primary);
+  background: white;
+  box-shadow: 0 4px 12px var(--shadow-medium);
+}
+
+.puzzle-cell {
+  border: 1px solid var(--border-color);
+  background: white;
+  color: var(--ink-primary);
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+}
+
+.puzzle-cell:focus {
+  outline: 2px solid var(--ink-primary);
+  outline-offset: -2px;
+  background: rgba(42, 37, 32, 0.03);
+}
+
+.puzzle-cell.blocked {
+  background: var(--ink-primary);
+}
+
+/* ============================================ */
+/* RESPONSIVE ADJUSTMENTS                       */
+/* ============================================ */
+
+@media (max-width: 600px) {
+  .slide-title {
+    font-size: 1.8rem;
+  }
+  
+  .slide-description {
+    font-size: 1rem;
+  }
+  
+  .game-intro-title {
+    font-size: 2rem;
+  }
+  
+  .game-intro-instructions {
+    font-size: 1rem;
+  }
+  
+  .trivia-question-text {
+    font-size: 1.2rem;
+  }
+}
+
+/* ============================================ */
+/* PRINT STYLES (for offline documentation)     */
+/* ============================================ */
+
+@media print {
+  body::before {
+    display: none;
+  }
+  
+  .swiper-pagination,
+  .btn,
+  .game-nav {
+    display: none;
+  }
+}

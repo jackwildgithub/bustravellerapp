@@ -46,5 +46,41 @@
     "body": "It's not being rude.\nIt's being Geelong.",
     "image": "https://images.unsplash.com/photo-1551244072-5d12893278ab?w=1200&q=80",
     "tags": ["geelong", "culture", "local", "vibe"]
+  },
+  {
+    "id": "puzzle-trivia-001",
+    "type": "puzzle",
+    "layout": "puzzle",
+    "game": "trivia",
+    "gameId": "trivia-geelong",
+    "kicker": "Game",
+    "title": "Daily Trivia Quiz",
+    "body": "Test your knowledge of Geelong and the journey.",
+    "image": "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=1200&q=80",
+    "tags": ["game", "trivia", "quiz"]
+  },
+  {
+    "id": "puzzle-crossword-001",
+    "type": "puzzle",
+    "layout": "puzzle",
+    "game": "crossword",
+    "gameId": "crossword-daily",
+    "kicker": "Game",
+    "title": "Crossword Puzzle",
+    "body": "Classic crossword to pass the time.",
+    "image": "https://images.unsplash.com/photo-1590859808308-3d2d9c515b1a?w=1200&q=80",
+    "tags": ["game", "crossword", "puzzle"]
+  },
+  {
+    "id": "puzzle-sudoku-001",
+    "type": "puzzle",
+    "layout": "puzzle",
+    "game": "sudoku",
+    "gameId": "sudoku-daily",
+    "kicker": "Game",
+    "title": "Sudoku Challenge",
+    "body": "Fill the grid with logic and patience.",
+    "image": "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=1200&q=80",
+    "tags": ["game", "sudoku", "puzzle"]
   }
 ]
