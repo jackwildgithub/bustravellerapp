@@ -18,8 +18,9 @@ let deckSwiper;
  */
 function slideHTML(item, index) {
   const layoutClass = item.layout ? `layout-${item.layout}` : '';
-  const bg = item.image ? `style="background-image:url('${item.image}');"` : '';
-  const kicker = item.kicker ? `<div class="slide-kicker">${escapeHtml(item.kicker)}</div>` : '';
+  const bg = '';
+const kicker = item.kicker ? `<div class="slide-kicker">${escapeHtml(item.kicker)}</div>` : '';
+  const inlineImage = item.image ? `<img class="slide-image" src="${escapeAttr(item.image)}" alt="${escapeAttr(item.title || 'Image')}" loading="lazy">` : '';
 
   // For game cards, we'll stash game info in data attributes
   const dataAttrs = [
@@ -42,6 +43,7 @@ function slideHTML(item, index) {
       <div class="slide-content">
         ${kicker}
         <h1 class="slide-title">${escapeHtml(item.title || '')}</h1>
+        ${inlineImage}
         <p class="slide-description">${escapeHtml(item.body || '')}</p>
         ${item.type !== 'trivia' && !item.game ? `<div class="hint">Tap anywhere on this card to reveal the answer.</div>` : ''}
         ${item.game ? `<div class="hint">Tap to play this puzzle.</div>` : ''}

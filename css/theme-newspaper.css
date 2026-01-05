@@ -91,19 +91,16 @@ body::before {
   background: none;
 }
 
-.swiper-slide:not([style*="background-image"]) {
-  background: var(--paper-bg);
-}
-
-.swiper-slide:not([style*="background-image"]) .slide-content {
-  color: var(--ink-primary);
-}
-
 /* Slide text styling */
 .slide-content {
-  color: var(--paper-bg);
+  color: var(--ink-primary);
+  text-align: left;
+  padding: 28px 22px;
 }
 
+
+/* Title cards can be centered */
+.swiper-slide.layout-titlecard .slide-content { text-align: center; }
 .slide-kicker {
   font-size: 0.85rem;
   letter-spacing: 0.12em;
@@ -131,6 +128,16 @@ body::before {
   font-weight: 400;
 }
 
+
+/* Optional inline image (instead of full-screen background) */
+.slide-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 18px 0 16px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
 .hint {
   margin-top: 24px;
   font-size: 0.9rem;
