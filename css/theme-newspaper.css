@@ -22,8 +22,8 @@
 
 :root {
   /* Paper colors - soft, warm off-white */
-  --paper-bg: #f9f7f4;
-  --paper-overlay: rgba(249, 247, 244, 0.95);
+   --paper-bg: #fbf5df; /* washed-out vintage yellow */
+  --paper-overlay: rgba(251, 245, 223, 0.95);
   
   /* Ink colors - dark but not pure black */
   --ink-primary: #2a2520;
